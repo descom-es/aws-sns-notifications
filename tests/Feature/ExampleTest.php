@@ -1,8 +1,8 @@
 <?php
 
-namespace Descom\Skeleton\Tests\Feature;
+namespace AwsSnsNotification\Skeleton\Tests\Feature;
 
-use Descom\Skeleton\Tests\TestCase;
+use AwsSnsNotification\Skeleton\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

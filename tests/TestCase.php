@@ -1,8 +1,8 @@
 <?php
 
-namespace Descom\Skeleton\Tests;
+namespace AwsSnsNotification\Skeleton\Tests;
 
-use Descom\Skeleton\SkeletonServiceProvider;
+use AwsSnsNotification\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

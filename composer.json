@@ -1,10 +1,10 @@
 {
-    "name": "descom/skeleton",
+    "name": "descom/aws_sns_notification",
     "description": "Template to generate a Laravel Package",
     "license": "MIT",
     "authors": [
         {
-            "name": "Descom Support",
+            "name": "AwsSnsNotification Support",
             "email": "soporte@descom.es",
             "role": "Developer"
         }
@@ -22,13 +22,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Descom\\Skeleton\\": "src",
-            "Descom\\Skeleton\\Database\\Factories\\": "database/factories"
+            "AwsSnsNotification\\Skeleton\\": "src",
+            "AwsSnsNotification\\Skeleton\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Descom\\Skeleton\\Tests\\": "tests"
+            "AwsSnsNotification\\Skeleton\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -40,7 +40,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Descom\\Skeleton\\SkeletonServiceProvider"
+                "AwsSnsNotification\\Skeleton\\SkeletonServiceProvider"
             ]
         }
     },
