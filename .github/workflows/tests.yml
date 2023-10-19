@@ -28,26 +28,12 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: curl, pdo, sqlite, pdo_sqlite
+        extensions: curl
 
-    - name: Install SQLite 3
-      run: sudo apt-get install sqlite3
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-
-          ${{ runner.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
        composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
        composer update --prefer-stable --prefer-dist --no-interaction --no-suggest
-
 
     - name: Run test phpunit
       run: vendor/bin/phpunit
