@@ -21,6 +21,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('aws_sns_notification.webhook', [
+            'path' => 'aws/sns/webhook',
+        ]);
         // perform environment setup
     }
 }

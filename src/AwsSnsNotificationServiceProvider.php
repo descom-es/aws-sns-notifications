@@ -18,5 +18,7 @@ class AwsSnsNotificationServiceProvider extends ServiceProvider
               __DIR__.'/../config/config.php' => config_path('aws_sns_notification.php'),
             ], 'config');
         }
+
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 }
