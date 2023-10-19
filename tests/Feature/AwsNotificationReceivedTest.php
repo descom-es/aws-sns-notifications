@@ -53,7 +53,7 @@ class AwsNotificationReceivedTest extends TestCase
 
         $message = new Message($data);
 
-        $stringToSign = (new MessageValidator(fn() => $this->getCertificate()))->getStringToSign($message);
+        $stringToSign = (new MessageValidator(fn () => $this->getCertificate()))->getStringToSign($message);
 
         $key = openssl_get_privatekey($this->getCertificatePrivateKey());
 

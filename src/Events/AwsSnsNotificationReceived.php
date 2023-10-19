@@ -9,7 +9,9 @@ use Illuminate\Queue\SerializesModels;
 
 class AwsSnsNotificationReceived
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public readonly object $message;
 

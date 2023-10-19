@@ -25,7 +25,7 @@ class WebHookController extends Controller
 
         if (! (new MessageValidator(static::$callableCertClient))->isValid($message)) {
             return response()->json([
-                "message"=> 'signature not valid',
+                "message" => 'signature not valid',
             ], 401);
         }
 
@@ -34,7 +34,7 @@ class WebHookController extends Controller
         }
 
         return response()->json([
-            "message"=> 'ok',
+            "message" => 'ok',
         ]);
     }
 }
