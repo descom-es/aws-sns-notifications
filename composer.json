@@ -22,13 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "AwsSnsNotification\\Skeleton\\": "src",
-            "AwsSnsNotification\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Descom\\AwsSnsNotification\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AwsSnsNotification\\Skeleton\\Tests\\": "tests"
+            "Descom\\AwsSnsNotification\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace AwsSnsNotification\Skeleton\Tests;
+namespace Descom\AwsSnsNotification\Tests;
 
-use AwsSnsNotification\Skeleton\SkeletonServiceProvider;
+use Descom\AwsSnsNotification\AwsSnsNotificationServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -15,7 +15,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            AwsSnsNotificationServiceProvider::class,
         ];
     }
 

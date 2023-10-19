@@ -1,10 +1,10 @@
 <?php
 
-namespace AwsSnsNotification\Skeleton;
+namespace Descom\AwsSnsNotification;
 
 use Illuminate\Support\ServiceProvider;
 
-class SkeletonServiceProvider extends ServiceProvider
+class AwsSnsNotificationServiceProvider extends ServiceProvider
 {
     public function register()
     {
