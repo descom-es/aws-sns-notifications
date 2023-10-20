@@ -18,6 +18,7 @@ class AwsNotificationReceivedTest extends TestCase
         Event::fake();
         WebHookController::fake($this->getCertificate());
     }
+
     public function testIfBadSignedResponseUnauthorized()
     {
         WebHookController::fake(str_replace('5hAyUS', '5hAyuS', $this->getCertificate()));

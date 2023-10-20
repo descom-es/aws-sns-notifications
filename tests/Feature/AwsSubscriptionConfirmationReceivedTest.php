@@ -4,7 +4,6 @@ namespace Descom\AwsSnsNotification\Tests\Feature;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
-use Descom\AwsSnsNotification\Events\AwsSnsNotificationReceived;
 use Descom\AwsSnsNotification\Events\AwsSnsSubscriptionConfirmationReceived;
 use Descom\AwsSnsNotification\Http\Controllers\WebHookController;
 use Descom\AwsSnsNotification\Tests\TestCase;
