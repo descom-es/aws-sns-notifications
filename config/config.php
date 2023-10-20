@@ -1,3 +1,9 @@
 <?php
 
-return [];
+return [
+
+    'webhook' => [
+        'path' => 'aws/sns/webhook',
+    ],
+
+];

@@ -5,69 +5,43 @@ namespace Descom\AwsSnsNotification\Tests\Feature;
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
 use Descom\AwsSnsNotification\Events\AwsSnsNotificationReceived;
+use Descom\AwsSnsNotification\Events\AwsSnsSubscriptionConfirmationReceived;
 use Descom\AwsSnsNotification\Http\Controllers\WebHookController;
 use Descom\AwsSnsNotification\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 
-class AwsNotificationReceivedTest extends TestCase
+class AwsSubscriptionConfirmationReceivedTest extends TestCase
 {
-    public function setUp(): void
+    public function testDispatchEventAwsSnsNotificationReceived()
     {
-        parent::setUp();
-
         Event::fake();
         WebHookController::fake($this->getCertificate());
-    }
-    public function testIfBadSignedResponseUnauthorized()
-    {
-        WebHookController::fake(str_replace('5hAyUS', '5hAyuS', $this->getCertificate()));
 
-        $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification([
-            'type' => 'NullAction',
-        ]))->assertUnauthorized();
+        $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification())->assertOk();
 
-        Event::assertNotDispatched(AwsSnsNotificationReceived::class);
-    }
-
-    public function testDispatchEventAwsSnsNotificationReceivedWithMessagePayload()
-    {
-        $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification([
-            'type' => 'NullAction',
-        ]))->assertOk();
-
-        Event::assertDispatched(AwsSnsNotificationReceived::class, function (AwsSnsNotificationReceived $event) {
-            return $event->toJson()->type === 'NullAction'
-                && $event->subject() === null;
-        });
+        Event::assertDispatched(
+            AwsSnsSubscriptionConfirmationReceived::class,
+            function (AwsSnsSubscriptionConfirmationReceived $event) {
+                return $event->subscribeUrl()
+                    === 'https://sns.eu-west-1.amazonaws.com/?Action=ConfirmSubscription&TopicArn=arn:aws:sns:us-east-2:295079676684:publish-and-verify-892f85fe-4836-424d-8188-ab85bef0f362&Token=123';
+            }
+        );
     }
 
-    public function testDispatchEventAwsSnsNotificationReceivedWithMessageString()
-    {
-        $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification("simple string"))
-            ->assertOk();
-
-        Event::assertDispatched(AwsSnsNotificationReceived::class, function (AwsSnsNotificationReceived $event) {
-            return $event->toString() === 'simple string';
-        });
-    }
-
-    private function generateNotification(array|string $message, ?string $subject = null): array
+    private function generateNotification(): array
     {
         $data = [
-            'Type' => "Notification",
+            'Type' => "SubscriptionConfirmation",
             'MessageId' => "792cda85-518f-5dd3-9163-81d851212f3a",
             'TopicArn' => "arn:aws:sns:us-east-2:295079676684:publish-and-verify-892f85fe-4836-424d-8188-ab85bef0f362",
-            'Message' => is_array($message) ? json_encode($message) : $message,
+            'Message' => "hello",
             'Timestamp' => "2022-07-28T21:23:58.317Z",
-            'SignatureVersion' => "1",
+            "Token" => "123",
             'Signature' => "ghtf+deOBAzHJJZ6s6CdRLfTQAlcGzq9naoFM1wi0CJiq//uVRuZnamrkWNF0fhouMFvuLVRwcz8PZLUMSfnmd5VpdTKpTyiKmy1qJAZXma0w+yi7G+I33hD1Jyk1Nbym2n0kqp3fVu2aoooiN2ZeLAT2bH0/BtjLSfN1yAOKNoprco4qV9gGUZinXJdj9a1YdNhDR2jKi33ldlsVtEXAtiaDklGEk7DgRKX38GerBPiLg3FdtgY6KC7cdeGpU/dGK+4hjc83Ive1HoFkAwqhpgInM2sMytBosoiXfCmOKmU4xeGD0gHDNZTlJUJQDlzw8Eag0H9f/5zXF9d3uy0YQ==",
+            "SubscribeURL" => "https://sns.eu-west-1.amazonaws.com/?Action=ConfirmSubscription&TopicArn=arn:aws:sns:us-east-2:295079676684:publish-and-verify-892f85fe-4836-424d-8188-ab85bef0f362&Token=123",
+            'SignatureVersion' => "1",
             'SigningCertURL' => "https://sns.us-east-2.amazonaws.com/SimpleNotificationService-7ff5318490ec183fbaddaa2a969abfda.pem",
-            'UnsubscribeURL' => "https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:295079676684:publish-and-verify-892f85fe-4836-424d-8188-ab85bef0f362:2296bc94-7992-4be1-b15f-b97229b5c1d8",
         ];
-
-        if ($subject) {
-            $data['Subject'] = $subject;
-        }
 
         $message = new Message($data);
 

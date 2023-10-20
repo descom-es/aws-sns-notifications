@@ -6,6 +6,7 @@ use Aws\Sns\Message;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use JsonException;
 
 class AwsSnsNotificationReceived
 {
@@ -13,19 +14,19 @@ class AwsSnsNotificationReceived
     use InteractsWithSockets;
     use SerializesModels;
 
-    public readonly object $message;
-
-    /**
-     * Create a new event instance.
-     */
     public function __construct(
         public readonly Message $messageSns,
     ) {
     }
 
-    public function getTopicArn(): string
+    public function topicArn(): string
     {
         return $this->messageSns->offsetGet('TopicArn');
+    }
+
+    public function subject(): ?string
+    {
+        return $this->messageSns->offsetGet('Subject');
     }
 
     public function toJson(): object
@@ -35,7 +36,12 @@ class AwsSnsNotificationReceived
 
     public function toArray(): array
     {
-        return json_decode($this->messageSns->offsetGet('Message'), true);
+        return json_decode($this->messageSns->offsetGet('Message'), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    public function toString(): string
+    {
+        return $this->messageSns->offsetGet('Message');
     }
 
     public function __toString()
