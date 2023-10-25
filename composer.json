@@ -1,6 +1,6 @@
 {
-    "name": "descom/aws_sns_notification",
-    "description": "Template to generate a Laravel Package",
+    "name": "descom/aws-sns-notification",
+    "description": "Package to Laravel to received notification from AWS SNS",
     "license": "MIT",
     "authors": [
         {
@@ -12,7 +12,10 @@
     "require": {
         "php": "^8.1",
         "aws/aws-php-sns-message-validator": "^1.1",
-        "laravel/framework": "^9.0|^10.0"
+        "illuminate/config": "^9.0|^10.0",
+        "illuminate/http": "^9.0|^10.0",
+        "illuminate/routing": "^9.0|^10.0",
+        "illuminate/support": "^9.0|^10.0"
     },
     "require-dev": {
         "descom/dev": "^1.0",
