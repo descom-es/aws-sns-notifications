@@ -4,8 +4,8 @@ namespace Descom\AwsSnsNotification\Http\Controllers;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
-use Descom\AwsSnsNotification\Events\AwsSnsNotificationReceived;
-use Descom\AwsSnsNotification\Events\AwsSnsSubscriptionConfirmationReceived;
+use Descom\AwsSnsNotification\Events\TopicNotification;
+use Descom\AwsSnsNotification\Events\TopicSubscriptionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -27,11 +27,11 @@ class WebHookController extends Controller
         $this->validate($message);
 
         if ($message['Type'] === 'Notification') {
-            event(new AwsSnsNotificationReceived($message));
+            event(new TopicNotification($message));
         }
 
         if ($message['Type'] === 'SubscriptionConfirmation') {
-            event(new AwsSnsSubscriptionConfirmationReceived($message));
+            event(new TopicSubscriptionRequest($message));
         }
 
         return response()->json([

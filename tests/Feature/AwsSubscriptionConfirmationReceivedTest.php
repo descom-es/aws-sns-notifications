@@ -4,7 +4,7 @@ namespace Descom\AwsSnsNotification\Tests\Feature;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
-use Descom\AwsSnsNotification\Events\AwsSnsSubscriptionConfirmationReceived;
+use Descom\AwsSnsNotification\Events\TopicSubscriptionRequest;
 use Descom\AwsSnsNotification\Http\Controllers\WebHookController;
 use Descom\AwsSnsNotification\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
@@ -19,8 +19,8 @@ class AwsSubscriptionConfirmationReceivedTest extends TestCase
         $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification())->assertOk();
 
         Event::assertDispatched(
-            AwsSnsSubscriptionConfirmationReceived::class,
-            function (AwsSnsSubscriptionConfirmationReceived $event) {
+            TopicSubscriptionRequest::class,
+            function (TopicSubscriptionRequest $event) {
                 return $event->subscribeUrl()
                     === 'https://sns.eu-west-1.amazonaws.com/?Action=ConfirmSubscription&TopicArn=arn:aws:sns:us-east-2:295079676684:publish-and-verify-892f85fe-4836-424d-8188-ab85bef0f362&Token=123';
             }

@@ -6,12 +6,6 @@ use Descom\AwsSnsNotification\AwsSnsNotificationServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        // additional setup
-    }
-
     protected function getPackageProviders($app)
     {
         return [
@@ -24,6 +18,5 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('aws_sns_notification.webhook', [
             'path' => 'aws/sns/webhook',
         ]);
-        // perform environment setup
     }
 }

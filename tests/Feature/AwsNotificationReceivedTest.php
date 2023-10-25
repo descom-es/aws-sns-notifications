@@ -4,7 +4,7 @@ namespace Descom\AwsSnsNotification\Tests\Feature;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
-use Descom\AwsSnsNotification\Events\AwsSnsNotificationReceived;
+use Descom\AwsSnsNotification\Events\TopicNotification;
 use Descom\AwsSnsNotification\Http\Controllers\WebHookController;
 use Descom\AwsSnsNotification\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
@@ -27,7 +27,7 @@ class AwsNotificationReceivedTest extends TestCase
             'type' => 'NullAction',
         ]))->assertUnauthorized();
 
-        Event::assertNotDispatched(AwsSnsNotificationReceived::class);
+        Event::assertNotDispatched(TopicNotification::class);
     }
 
     public function testDispatchEventAwsSnsNotificationReceivedWithMessagePayload()
@@ -36,7 +36,7 @@ class AwsNotificationReceivedTest extends TestCase
             'type' => 'NullAction',
         ]))->assertOk();
 
-        Event::assertDispatched(AwsSnsNotificationReceived::class, function (AwsSnsNotificationReceived $event) {
+        Event::assertDispatched(TopicNotification::class, function (TopicNotification $event) {
             return $event->toJson()->type === 'NullAction'
                 && $event->subject() === null;
         });
@@ -47,8 +47,8 @@ class AwsNotificationReceivedTest extends TestCase
         $this->postJson(config('aws_sns_notification.webhook.path'), $this->generateNotification("simple string"))
             ->assertOk();
 
-        Event::assertDispatched(AwsSnsNotificationReceived::class, function (AwsSnsNotificationReceived $event) {
-            return $event->toString() === 'simple string';
+        Event::assertDispatched(TopicNotification::class, function (TopicNotification $event) {
+            return $event->__toString() === 'simple string';
         });
     }
 
