@@ -18,7 +18,7 @@ composer require descom/aws-sns-notifications
 
 ### Capture Events
 
-#### AwsSnsSubscriptionConfirmationReceived
+#### TopicSubscriptionRequest
 
 ```php
 use Descom\AwsSnsNotification\Events\TopicSubscriptionRequest;
@@ -28,6 +28,10 @@ class SnsSubscriptionConfirmation
 {
     public function handle(TopicSubscriptionRequest $event): void
     {
+        logger()->info('SNS subscription request', [
+            'topic' => $event->topicArn(),
+        ]);
+
         // Confirm the subscription by sending a GET request to the SubscribeURL
 
         Http::get($event->subscribeUrl());
@@ -35,7 +39,7 @@ class SnsSubscriptionConfirmation
 }
 ```
 
-#### AwsSnsNotificationReceived
+#### TopicNotification
 
 ```php
 use Descom\AwsSnsNotification\Events\TopicNotification;
