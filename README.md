@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-composer require descom/aws-sns-notifications
+composer require descom/aws-sns-notification
 ```
 
 ## Usage
