@@ -2,9 +2,13 @@ name: Analyse
 
 on:
   push:
-    branches: [master]
+    paths:
+        - '**.php'
+        - 'phpstan.neon.dist'
   pull_request:
-    branches: [master]
+    paths:
+        - '**.php'
+        - 'phpstan.neon.dist'
 
 jobs:
   phpstan:
@@ -19,20 +23,8 @@ jobs:
       with:
         php-version: 8.4
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v4
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-8.4-${{ hashFiles('**/composer.json') }}
-        restore-keys: |
-          ${{ runner.os }}-php-8.4-
-
-    - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: |
-        composer install --no-interaction --no-progress
-        composer dump
+    - name: Install composer dependencies
+      uses: ramsey/composer-install@v3
 
     - name: Run analyse phpstan
       run: vendor/bin/phpstan analyse --error-format github
