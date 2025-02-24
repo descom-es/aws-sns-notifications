@@ -3,7 +3,7 @@
 return [
 
     'webhook' => [
-        'path' => 'aws/sns/webhook',
+        'path' => env('AWS_SNS_WEBHOOK_PATH', 'aws/sns/webhook'),
     ],
 
 ];
